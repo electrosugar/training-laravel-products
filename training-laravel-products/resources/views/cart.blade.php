@@ -20,7 +20,12 @@
             <button id="btn-submit" type="submit">Remove from cart</button>
         </form>
     @endforeach
-    <a href="{{ url('index') }}" >Go to index</a>
+    <form action="{{url('cart')}}" method="POST" id="product-remove">
+        @csrf
+
+        <button id="btn-submit" type="submit">Remove from cart</button>
+    </form>
+    <a href="{{ url('index') }}">Go to index</a>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#product-remove").submit(function (e) {

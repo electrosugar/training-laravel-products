@@ -20,7 +20,7 @@
             <input type="hidden" name="productID" value="{{$product->id}}">
             <button id="btn-submit" type="submit">Delete product</button>
         </form>
-        <a href="{{url('product?editProduct='.$product->id)}}">Edit Item</a>
+        <a href="{{url('product/'.$product->id)}}">Edit Item</a>
     @endforeach
     <br>
     <a href="{{url('product')}}">Add Item</a>

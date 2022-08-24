@@ -1,11 +1,10 @@
 @extends('layout')
 
 @section('content')
-<body>
+    <body>
     @foreach($products as $product)
-
         <div class="product">
-            <img src="{{$product->image_path}}" alt="$product->image_path">
+            <img src="{{$product->image_path}}" alt="{{$product->image_path}}">
             <h1 class="title">
                 {{$product->title  . $product->id}}
             </h1>
@@ -22,14 +21,15 @@
             <button id="btn-submit" type="submit">Add to cart</button>
         </form>
     @endforeach
-<a href="{{ url('cart') }}" >Go to cart</a>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#product-add").submit(function (e) {
-            $("#btn-submit").attr("disabled", true);
-            return true;
+    <a href="{{ url('cart') }}">{{__('Go to cart')}}</a>
+    <a href="{{ url('login') }}">{{__('Login')}}</a>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#product-add").submit(function (e) {
+                $("#btn-submit").attr("disabled", true);
+                return true;
+            });
         });
-    });
-</script>
+    </script>
 @endsection
 
