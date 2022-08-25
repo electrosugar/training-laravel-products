@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-//        Schema::create('orders', function (Blueprint $table) {
-//            $table->foreignId('id_product')->references('id')->on('archived_products')->onDelete('cascade');
-//            $table->foreignId('id_customer')->references('id')->on('customers')->onDelete('cascade');
-//        });
+        Schema::create('orders', function (Blueprint $table) {
+            $table->bigInteger('archived_product_id')->unsigned();
+            $table->bigInteger('customer_id')->unsigned();
+            $table->foreign('archived_product_id')->references('id')->on('archived_products')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+        });
     }
 
     /**
