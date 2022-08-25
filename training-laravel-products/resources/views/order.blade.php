@@ -9,7 +9,7 @@
 <body>
 <div>
     <div>
-        <h1>{{__('The order #') . $order->id . __('has been recorded')}}</h1>
+        <h1>{{__('The order # ') . $order->id . __(' has been recorded')}}</h1>
         <div class="product">
             <div class="info">
                 <span class="title">{{__('Name: ') . $order->name}}</span>
@@ -18,29 +18,29 @@
                 <br>
                 <span class="price">{{__('Comment: ') . $order->comment}}</span>
                 <br>
-                <span class="date">{{__('Date: ') . $order->creationDate}}</span>
+                <span class="date">{{__('Date: ') . $order->creation_date}}</span>
                 <br>
             </div>
             <span>{{__('Total Price: ') . $order->totalPrice}}</span>
         </div>
         <div class="selectedProducts">
-            @foreach($order->archivedProductsArray as $product):
-            <div class="product">
-                <img src="{{$product->image_path}}" alt="{{$product->image_path}}">
-                <h1 class="title">
-                    {{$product->title  . $product->id}}
-                </h1>
-                <span class="description">
-                {{$product->description}}
+            @foreach($order->products->toArray() as $product)
+                <div class="product">
+                    <img src="{{asset($product['image_path'])}}" alt="{{$product['image_path']}}">
+                    <h1 class="title">
+                        {{$product['title']  . $product['id']}}
+                    </h1>
+                    <span class="description">
+                {{$product['description']}}
             </span>
-                <span class="price">
-                {{$product->price}} $
+                    <span class="price">
+                {{$product['price']}} $
             </span>
-            </div>
+                </div>
             @endforeach
         </div>
     </div>
 </div>
-<a href="cart.php"><?= __('Go to cart') ?></a>
-<a href="index.php"><?= __('Go to index') ?></a>
+<a href={{url('cart')}}><?= __('Go to cart') ?></a>
+<a href={{url('index')}}><?= __('Go to index') ?></a>
 </body>
