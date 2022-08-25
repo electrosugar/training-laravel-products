@@ -26,7 +26,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#product-add").submit(function (e) {
-                $("#btn-submit").attr("disabled", true);
+                $("#btn-submit").attr('disabled', true);
                 return true;
             });
         });

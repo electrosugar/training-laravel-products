@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -40,27 +42,12 @@ Route::post('/index', [ProductController::class, 'add']);
 
 Route::get('/cart', [ProductController::class, 'cart']);
 Route::post('/cart', [ProductController::class, 'remove']);
+Route::post('/cart/order', [OrderController::class, 'checkout']);
 
-Route::get('/order', function () {
-    $product = new Product(
-        1,
-        'Windows',
-        'OS',
-        10.2,
-        'storage/images/GkTGYwMb6IWqdh1nfe6JNQcMCvLAWs3sHjrNJk6C.png'
-    );
-    $order = new Order(
-        'Maria',
-        'maria@gmail.com',
-        'I love buying stuff',
-        100,
-        [$product]
-    );
-    return view('order', ['order' => $order]);
-});
+Route::get('/order/{customer}', [OrderController::class, 'order']);
 
 Route::get('/orders', function () {
-    return view('orders');
+    return view('orders', ['orders' => Customer::all()]);
 });
 
 
