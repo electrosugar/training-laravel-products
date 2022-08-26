@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Customer;
@@ -18,37 +19,35 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/index', [ProductController::class, 'index'])->middleware('guest');
+Route::post('/index', [ProductController::class, 'add'])->middleware('guest');
 
-Route::get('/login', [LoginController::class, 'create']);
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
+Route::get('/cart', [ProductController::class, 'cart'])->middleware('guest');
+Route::post('/cart', [ProductController::class, 'remove'])->middleware('guest');
+Route::post('/cart/order', [OrderController::class, 'checkout'])->middleware('guest');
 
-Route::get('/products', [ProductController::class, 'products']);
-Route::post('/products', [ProductController::class, 'delete']);
+Route::get('/login', [LoginController::class, 'create'])->name('login')->middleware('guest');
+Route::post('/login', [LoginController::class, 'login'])->middleware('guest');
+Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
-Route::get('/product/', function () {
+Route::get('/products', [ProductController::class, 'products'])->middleware('auth');
+Route::post('/products', [ProductController::class, 'delete'])->middleware('auth');
+
+Route::get('/product', function () {
     return view('product');
-});
+})->middleware('auth');
 Route::get('/product/{id}', function ($id) {
     return view('product', ['id' => $id]);
-})->whereNumber('id');
+})->whereNumber('id')->middleware('auth');
 
-Route::post('/product/{id}', [ProductController::class, 'edit']);
-Route::post('/product', [ProductController::class, 'insert']);
+Route::post('/product/{id}', [ProductController::class, 'edit'])->middleware('guest');
+Route::post('/product', [ProductController::class, 'insert'])->middleware('guest');
 
-
-Route::get('/index', [ProductController::class, 'index']);
-Route::post('/index', [ProductController::class, 'add']);
-
-Route::get('/cart', [ProductController::class, 'cart']);
-Route::post('/cart', [ProductController::class, 'remove']);
-Route::post('/cart/order', [OrderController::class, 'checkout']);
-
-Route::get('/order/{customer}', [OrderController::class, 'order']);
+Route::get('/order/{customer}', [OrderController::class, 'order'])->middleware('guest');
 
 Route::get('/orders', function () {
     return view('orders', ['orders' => Customer::all()]);
-});
+})->middleware('guest');
 
 
 
