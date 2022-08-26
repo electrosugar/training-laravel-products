@@ -74,19 +74,17 @@ class Product extends Model
 
     public static function notInCart()
     {
-        if (Session::has('cart')) {
-            $indexProducts = Product::whereNotIn('id', Session::get('cart'))->get();
-        } else {
+        $indexProducts = Product::whereNotIn('id', Session::get('cart') ?? [])->get();
+        if (!$indexProducts) {
             throw new ModelNotFoundException();
         }
-
         return $indexProducts;
     }
 
     public static function inCart()
     {
         if (Session::has('cart')) {
-            $cartProducts = Product::whereIn('id', Session::get('cart'))->get();
+            $cartProducts = Product::whereIn('id', Session::get('cart') ?? [])->get();
         } else {
             throw new ModelNotFoundException();
         }

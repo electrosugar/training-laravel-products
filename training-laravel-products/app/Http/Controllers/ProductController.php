@@ -52,14 +52,22 @@ class ProductController extends Controller
 
     public function edit(Request $request, int $id)
     {
+
+        $validated = $request->validate([
+            'title' => 'string|max:50',
+            'description' => 'string|max:500',
+            'price' => 'numeric',
+            'image' => 'image|size:2000',
+        ]);
+
         $updateAssocArray = [];
-        if ($title = $request->input('title')) {
+        if ($title = $validated['title']) {
             $updateAssocArray['title'] = $title;
         }
-        if ($description = $request->input('description')) {
+        if ($description = $validated['description']) {
             $updateAssocArray['description'] = $description;
         }
-        if ($price = $request->input('price')) {
+        if ($price = $validated['price']) {
             $updateAssocArray['price'] = $price;
         }
 
@@ -77,10 +85,16 @@ class ProductController extends Controller
 
     public function insert(Request $request)
     {
-        $title = $request->input('title');
-        $description = $request->input('description');
-        $price = $request->input('price');
-        if ($image = $request->file('image')) {
+        $validated = $request->validate([
+            'title' => 'required|string|max:50',
+            'description' => 'required|string|max:500',
+            'price' => 'required|numeric',
+            'image' => 'required|image|size:2000',
+        ]);
+        $title = $validated['title'];
+        $description = $validated['title'];
+        $price = $validated['price'];
+        if ($image = $validated['image']) {
             $image_path = 'storage\images\\' . $request->file('image')->hashName();
             $request->file('image')->store('public/images');
 
