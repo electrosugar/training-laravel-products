@@ -9,7 +9,7 @@
 <body>
 <div>
     <div>
-        <h1>{{__('The order # ') . $order->id . __(' has been recorded')}}</h1>
+        <h1>{{__('Order # ') . $order->id . __(' has been recorded')}}</h1>
         <div class="product">
             <div class="info">
                 <span class="title">{{__('Name: ') . $order->name}}</span>
@@ -26,7 +26,7 @@
         <div class="selectedProducts">
             @foreach($order->products->toArray() as $product)
                 <div class="product">
-                    <img src="{{asset($product['image_path'])}}" alt="{{$product['image_path']}}">
+                    <img src="{{isset($message) ? $message->embed($product['image_path']) : asset($product['image_path'])}}" alt="{{$product['image_path']}}">
                     <h1 class="title">
                         {{$product['title']  . $product['id']}}
                     </h1>
