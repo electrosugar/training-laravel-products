@@ -1,9 +1,7 @@
 @extends('layout')
-
 @section('content')
-    <div class="loginBody">
+    <div class="form-group m-3 flex-col">
         <h1>Login</h1>
-
         <form class="login" method="POST" action="{{url('login')}}" >
             @csrf
             <input type="text" placeholder="<?= __('Username')?>" name="username" value="{{old('username')}}">

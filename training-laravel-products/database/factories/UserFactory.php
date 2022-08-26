@@ -19,7 +19,8 @@ class UserFactory extends Factory
     {
         return [
             'username' => 'electrosugar',
-            'password' => '$2a$12$c8ykswn36fA8/NP5sFV5W.hxtUSkXIWrIVHLjvsZ4eMExlHGJC18q' // password
+            'password' => '$2a$12$c8ykswn36fA8/NP5sFV5W.hxtUSkXIWrIVHLjvsZ4eMExlHGJC18q', // password
+            'remember_token' => '$2a$12$c8ykswn36fA8/NP5sFV5W.hxtUSkXIWrIVHLjvsZ4eMExlHGJC18q'
         ];
     }
 

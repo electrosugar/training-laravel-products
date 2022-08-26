@@ -7,6 +7,7 @@ use Illuminate\Hashing\AbstractHasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -39,9 +40,9 @@ class LoginController extends Controller
 
     public function logout()
     {
-        \auth()->logout();
+        Auth::logout();
 
-        return redirect('/login')->with('success', 'Goodbye');
+        return Redirect::route('login');
 
     }
 }
