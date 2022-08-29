@@ -18,9 +18,9 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'username' => 'electrosugar',
-            'password' => '$2a$12$c8ykswn36fA8/NP5sFV5W.hxtUSkXIWrIVHLjvsZ4eMExlHGJC18q', // password
-            'remember_token' => '$2a$12$c8ykswn36fA8/NP5sFV5W.hxtUSkXIWrIVHLjvsZ4eMExlHGJC18q'
+            'username' => env('ADMIN_USERNAME'),
+            'password' => env('ADMIN_PASSWORD'),
+            'remember_token' => env('ADMIN_PASSWORD')
         ];
     }
 

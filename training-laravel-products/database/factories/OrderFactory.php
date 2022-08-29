@@ -22,8 +22,8 @@ class OrderFactory extends Factory
         $products = ArchivedProduct::all()->pluck('id')->toArray();
         $customers = Customer::all()->pluck('id')->toArray();
         return [
-            'archived_product_id'=> $this->faker->randomElement($products),
-            'customer_id'=> $this->faker->randomElement($customers)
+            'archived_product_id' => $this->faker->randomElement($products),
+            'customer_id' => $this->faker->randomElement($customers)
         ];
     }
 }
