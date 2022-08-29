@@ -18,7 +18,18 @@ class ProductController extends Controller
 
     public function products()
     {
-        return view('products', ['products' => Product::allProducts()]);
+        return view('products', ['products' => Product::all()]);
+    }
+
+    public function product($id)
+    {
+        if (isset($id)) {
+            return view('product', ['id' => $id]);
+
+        } else {
+            return view('product');
+
+        }
     }
 
     public function cart()
@@ -52,14 +63,12 @@ class ProductController extends Controller
 
     public function edit(Request $request, int $id)
     {
-
         $validated = $request->validate([
-            'title' => 'string|max:50',
-            'description' => 'string|max:500',
-            'price' => 'numeric',
-            'image' => 'image|size:2000',
+            'title' => 'required_without_all:description,price,image|nullable|string|max:50',
+            'description' => 'required_without_all:title,price,image|nullable|string|max:500',
+            'price' => 'required_without_all:description,title,image|nullable|numeric',
+            'image' => 'required_without_all:description,price,title|nullable|image|max:6000',
         ]);
-
         $updateAssocArray = [];
         if ($title = $validated['title']) {
             $updateAssocArray['title'] = $title;
@@ -79,17 +88,18 @@ class ProductController extends Controller
         if ($updateAssocArray) {
             DB::table('products')->where('id', $id)->limit(1)->update($updateAssocArray);
         }
-        return view('product');
+        return back()->withInput()->with('message', __('Successful Edit'));
 
     }
 
     public function insert(Request $request)
     {
+
         $validated = $request->validate([
             'title' => 'required|string|max:50',
             'description' => 'required|string|max:500',
             'price' => 'required|numeric',
-            'image' => 'required|image|size:2000',
+            'image' => 'required|image',
         ]);
         $title = $validated['title'];
         $description = $validated['title'];
@@ -106,7 +116,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return view('product');
+        return view('product')->with('message', __('Product Added Successfully'));
 
     }
 
