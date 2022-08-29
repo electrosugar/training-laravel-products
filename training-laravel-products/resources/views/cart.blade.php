@@ -22,7 +22,12 @@
     @endforeach
     <h1>{{__('Submit Order')}}</h1>
     <form action="{{url('cart/order')}}" method="post"
-          class="form-group">
+          class="form-group" id="product-remove">
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -36,7 +41,7 @@
         <input type="text" name="name" placeholder="{{__('Name') }}" value="{{old('name')}}"><br>
         <input type="text" name="contact" placeholder="{{__('Contact') }}" value="{{old('contact')}}"><br>
         <textarea rows="4" cols="20" name="comment" placeholder="{{__('Comment') }}">{{old('comment')}}</textarea><br>
-        <span class="formLinks"> <button type="submit">{{__('Checkout')}}</button></span>
+        <span class="formLinks"> <button type="submit" id="btn-submit">{{__('Checkout')}}</button></span>
     </form>
     <a href="{{ url('index') }}">{{__('Go to index')}}</a>
     <a href="{{ url('orders') }}">{{__('Go to orders')}}</a>
