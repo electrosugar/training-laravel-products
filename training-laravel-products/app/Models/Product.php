@@ -40,37 +40,6 @@ class Product extends Model
         return $product;
     }
 
-//    public function save(array $options = [])
-//    {
-//        DB::table('products')->insert([
-//            'title' => $this->title,
-//            'description' => $this->description,
-//            'price' => $this->price,
-//            'image_path' => $this->image_path
-//        ]);
-//    }
-
-//    public static function find($id)
-//    {
-//        $product = DB::table('products')->select('*')->where('id', $id)->get();
-//
-//        if (!$product) {
-//            throw new ModelNotFoundException();
-//        }
-//
-//        return $product;
-//    }
-
-    public static function allProducts()
-    {
-        $allProducts = DB::table('products')->select('*')->get();
-
-        if (!$allProducts) {
-            throw new ModelNotFoundException();
-        }
-
-        return $allProducts;
-    }
 
     public static function notInCart()
     {
