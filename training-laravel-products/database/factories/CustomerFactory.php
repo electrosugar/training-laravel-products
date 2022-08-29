@@ -17,10 +17,11 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
-            'name'=> $this->faker->name(),
-            'contact'=> $this->faker->email(),
-            'comment'=>$this->faker->paragraph(3, 2),
-            'creation_date'=>$this->faker->date('Y-m-d-h-m-s')
+            'name' => $this->faker->name(),
+            'contact' => $this->faker->email(),
+            'comment' => $this->faker->paragraph(3, 2),
+            'creation_date' => $this->faker->date('Y-m-d-h-m-s'),
+            'total_price' => $this->faker->randomFloat(2, 1, 10000),
         ];
     }
 }
