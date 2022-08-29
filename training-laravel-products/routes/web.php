@@ -1,12 +1,9 @@
 <?php
 
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Customer;
-use App\Models\Order;
-use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,26 +25,19 @@ Route::post('/cart/order', [OrderController::class, 'checkout'])->middleware('gu
 
 Route::get('/login', [LoginController::class, 'create'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest');
-Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 Route::get('/products', [ProductController::class, 'products'])->middleware('auth');
 Route::post('/products', [ProductController::class, 'delete'])->middleware('auth');
 
-Route::get('/product', function () {
-    return view('product');
-})->middleware('auth');
-Route::get('/product/{id}', function ($id) {
-    return view('product', ['id' => $id]);
-})->whereNumber('id')->middleware('auth');
+Route::get('/product/{id?}', [ProductController::class, 'product'])->whereNumber('id')->middleware('auth');
 
-Route::post('/product/{id}', [ProductController::class, 'edit'])->middleware('guest');
-Route::post('/product', [ProductController::class, 'insert'])->middleware('guest');
+Route::post('/product/{id}', [ProductController::class, 'edit'])->middleware('auth');
+Route::post('/product', [ProductController::class, 'insert'])->middleware('auth');
 
 Route::get('/order/{customer}', [OrderController::class, 'order'])->middleware('guest');
 
-Route::get('/orders', function () {
-    return view('orders', ['orders' => Customer::all()]);
-})->middleware('guest');
+Route::get('/orders', [OrderController::class, 'orders'])->middleware('guest');
 
 
 

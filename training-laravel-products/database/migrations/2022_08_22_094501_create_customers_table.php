@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('contact');
             $table->text('comment');
             $table->timestamp('creation_date');
+            $table->float('total_price');
         });
     }
 
