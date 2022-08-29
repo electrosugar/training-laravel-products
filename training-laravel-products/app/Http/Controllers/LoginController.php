@@ -20,10 +20,9 @@ class LoginController extends Controller
     public function login()
     {
         $credentials = request()->validate([
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'required|string|max:100',
+            'password' => 'required'
         ]);
-
 
         //successful auth
 
