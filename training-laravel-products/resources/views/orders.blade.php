@@ -19,7 +19,7 @@
             <span class="date">{{__('Date: ') . $order->creation_date}}</span>
             <br>
         </div>
-        <span>{{__('Total Price: ') . $order->totalPrice}}</span>
+        <span>{{__('Total Price: ') . $order->total_price}}</span>
     </div>
     <div class="selectedProducts">
         @foreach($order->products->toArray() as $product)
