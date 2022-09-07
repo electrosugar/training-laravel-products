@@ -21,7 +21,7 @@ class ProductController extends Controller
         return view('products', ['products' => Product::all()]);
     }
 
-    public function product($id)
+    public function product($id=null)
     {
         if (isset($id)) {
             return view('product', ['id' => $id]);
@@ -34,7 +34,7 @@ class ProductController extends Controller
 
     public function cart()
     {
-        return view('cart', ['products' => Product::inCart()]);
+        return view('cart', ['products' => Product::inCart(), 'displayMail' => false]);
     }
 
     public function add(Request $request)
