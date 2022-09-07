@@ -1,7 +1,6 @@
 @extends('layout')
 
 @section('content')
-    <body>
     @foreach($products as $product)
         <div class="product">
             <img src="{{$product->image_path}}" alt="{{$product->image_path}}">

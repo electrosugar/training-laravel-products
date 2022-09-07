@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/index', [ProductController::class, 'index'])->middleware('guest');
-Route::post('/index', [ProductController::class, 'add'])->middleware('guest');
+Route::get('/index', [ProductController::class, 'index']);
+Route::post('/index', [ProductController::class, 'add']);
 
 Route::get('/cart', [ProductController::class, 'cart'])->middleware('guest');
 Route::post('/cart', [ProductController::class, 'remove'])->middleware('guest');
@@ -31,13 +31,12 @@ Route::get('/products', [ProductController::class, 'products'])->middleware('aut
 Route::post('/products', [ProductController::class, 'delete'])->middleware('auth');
 
 Route::get('/product/{id?}', [ProductController::class, 'product'])->whereNumber('id')->middleware('auth');
-
 Route::post('/product/{id}', [ProductController::class, 'edit'])->middleware('auth');
 Route::post('/product', [ProductController::class, 'insert'])->middleware('auth');
 
-Route::get('/order/{customer}', [OrderController::class, 'order'])->middleware('guest');
+Route::get('/order/{id}', [OrderController::class, 'order'])->whereNumber('id');
 
-Route::get('/orders', [OrderController::class, 'orders'])->middleware('guest');
+Route::get('/orders', [OrderController::class, 'orders'])->middleware('auth');
 
 
 
