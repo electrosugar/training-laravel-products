@@ -9,14 +9,21 @@ class Order extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $table = 'orders';
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'name',
+        'contact',
+        'comment'
+    ];
 
-    public static function order($customer){
-        $order = Customer::find($customer);
-        $totalPrice = 0;
-        foreach ($order->products as $product){
-            $totalPrice += $product->price;
-        }
-        $order->totalPrice = $totalPrice;
+    public static function order($id){
+        $order = Order::find($id);
         return $order;
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_product');
     }
 }

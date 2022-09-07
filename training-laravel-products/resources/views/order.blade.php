@@ -26,12 +26,12 @@
         <div class="selectedProducts">
             @foreach($order->products->toArray() as $product)
                 <div class="product">
-                    <img
-                        src="{{isset($message) ? $message->embed($product['image_path']) : asset($product['image_path'])}}"
-                        alt="{{$product['image_path']}}">
                     <h1 class="title">
                         {{$product['title']  . $product['id']}}
                     </h1>
+                    <img
+                        src="{{isset($message) ? $message->embed($product['image_path']) : asset($product['image_path'])}}"
+                        alt="{{$product['image_path']}}">
                     <span class="description">
                 {{$product['description']}}
             </span>
