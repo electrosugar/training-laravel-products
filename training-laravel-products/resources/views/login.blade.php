@@ -6,9 +6,12 @@
             @csrf
             <input type="text" placeholder="<?= __('Username')?>" name="username" value="{{old('username')}}">
             @error('username')
-            {{$message}}
+            <div class="error"> {{$message}} </div>
             @enderror
             <input type="text" placeholder="<?= __('Password')?>" name="password" value="{{old('password')}}">
+            @error('password')
+            <div class="error"> {{$message}} </div>
+            @enderror
             <input type="submit" class="loginInputs" value="Login">
             <a href="{{url('index')}}"><?= __('Anonymous User')?></a>
         </form>
