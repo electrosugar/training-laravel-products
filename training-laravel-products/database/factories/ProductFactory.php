@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Smknstd\FakerPicsumImages\FakerPicsumImagesProvider;
 use function Symfony\Component\String\width;
 
 /**
@@ -17,7 +18,7 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $this->faker->addProvider(new \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider($this->faker));
+        $this->faker->addProvider(new FakerPicsumImagesProvider($this->faker));
         return [
             'title' => $this->faker->word(),
             'description' => $this->faker->sentence(),

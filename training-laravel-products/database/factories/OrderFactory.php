@@ -19,11 +19,12 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
-        $products = ArchivedProduct::all()->pluck('id')->toArray();
-        $customers = Customer::all()->pluck('id')->toArray();
         return [
-            'archived_product_id' => $this->faker->randomElement($products),
-            'customer_id' => $this->faker->randomElement($customers)
+            'name' => $this->faker->name(),
+            'contact' => $this->faker->email(),
+            'comment' => $this->faker->paragraph(3, 2),
+            'creation_date' => $this->faker->date('Y-m-d-h-m-s'),
+//            'total_price' => $this->faker->randomFloat(2, 1, 10000),
         ];
     }
 }

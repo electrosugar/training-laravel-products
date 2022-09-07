@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\ArchivedProduct;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -21,8 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(1)->create();
         Product::factory(10)->create();
-        Customer::factory(10)->create();
-        ArchivedProduct::factory(10)->create();
-        Order::factory(20)->create();
+        Order::factory(10)->create();
+        OrderProduct::factory(20)->create();
     }
 }
