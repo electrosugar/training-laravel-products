@@ -6,6 +6,7 @@ use App\Mail\MailVendor;
 use App\Models\ArchivedProduct;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -15,62 +16,60 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use PhpParser\Error;
 use function Symfony\Component\HttpFoundation\Session\Storage\save;
+use function Symfony\Component\Routing\Loader\Configurator\collection;
 
 class OrderController extends Controller
 {
     public function checkout(Request $request)
     {
-
+        //validate input data
         $validated = $request->validate([
             'name' => 'bail|required|max:255',
             'contact' => 'bail|required|email',
             'comment' => 'required|max:500',
         ]);
+        //check if there are products
         $products = Product::find(Session::get('cart'));
         if (empty(Session::get('cart'))) {
-            return redirect()->back()->withInput()->with(['errors' => new MessageBag(['No products in cart'])]);
+            return redirect()->back()->withInput()->withErrors(['errors' => new MessageBag([__('No products in cart')])]);
         }
 
-        $customer = new Customer();
-        $customer->name = $validated['name'];
-        $customer->contact = $validated['contact'];
-        $customer->comment = $validated['comment'];
-        $totalPrice = 0;
-        foreach ($customer->products as $product) {
-            $totalPrice += $product->price;
-        }
-        $customer->totalPrice = $totalPrice;
-        $customer->save();
+        //save order
+        $order = new Order();
+        $order->name = $validated['name'];
+        $order->contact = $validated['contact'];
+        $order->comment = $validated['comment'];
+        $order->save();
 
+        //save all product-order key pair
         foreach ($products as $product) {
-            $archivedProduct = new ArchivedProduct();
-            $archivedProduct->title = $product->title;
-            $archivedProduct->description = $product->description;
-            $archivedProduct->price = $product->price;
-            $archivedProduct->image_path = 'storage\images\A' . Str::random(10) . microtime() . '.jpg';
-            File::copy($product->image_path, $archivedProduct->image_path);
-            $archivedProduct->save();
-
-            $order = new Order();
-            $order->archived_product_id = $archivedProduct->id;
-            $order->customer_id = $customer->id;
-            $order->save();
+            $orderProduct = new OrderProduct();
+            $orderProduct->product_id = $product->id;
+            $orderProduct->order_id = $order->id;
+            $orderProduct->price = $product->price;
+            $orderProduct->save();
         }
 
-
-        Mail::to('razvan.mocanu.5pointsolutions@gmail.com')->send(new MailVendor($customer->id));
+        //mail to the vendor
+        Mail::to(env('VENDOR_EMAIL'))->send(new MailVendor($validated));
         return redirect()->back()->withInput()->with('message', __('Successful Order'));
     }
 
-    public function order($customer)
+    public function order($id)
     {
-        $order = Customer::find($customer);
+        $order = Order::findOrFail($id);
+        $order->total_price = OrderProduct::where('order_id', $id)->sum('price');
         return view('order', ['order' => $order]);
     }
 
     public function orders()
     {
-        return view('orders', ['orders' => Customer::all()]);
+        $orders = [];
+        foreach (Order::all() as $order){
+            $order->total_price = OrderProduct::where('order_id', $order->id)->sum('price');
+            $orders[] = $order;
+        }
+        return view('orders', ['orders' => $orders]);
     }
 
 
