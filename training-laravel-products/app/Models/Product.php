@@ -22,12 +22,6 @@ class Product extends Model
         'price',
         'image_path'
     ];
-//    public $id;
-//    public $title;
-//    public $description;
-//    public $price;
-//    public $image_path;
-
 
     public static function create($properties)
     {
@@ -52,11 +46,7 @@ class Product extends Model
 
     public static function inCart()
     {
-        if (Session::has('cart')) {
-            $cartProducts = Product::whereIn('id', Session::get('cart') ?? [])->get();
-        } else {
-            throw new ModelNotFoundException();
-        }
+        $cartProducts = Product::whereIn('id', Session::get('cart') ?? [])->get();
 
         if (!$cartProducts) {
             throw new ModelNotFoundException();
@@ -64,6 +54,11 @@ class Product extends Model
 
         return $cartProducts;
 
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'order_product');
     }
 
 }
