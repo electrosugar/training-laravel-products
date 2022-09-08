@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= __('Order') ?></title>
-</head>
+@extends('layout')
+
 <body>
 <div>
     <div>
@@ -27,7 +21,7 @@
             @foreach($order->products->toArray() as $product)
                 <div class="product">
                     <h1 class="title">
-                        {{$product['title']  . $product['id']}}
+                        {{$product['title']}}
                     </h1>
                     <img
                         src="{{isset($message) ? $message->embed($product['image_path']) : asset($product['image_path'])}}"

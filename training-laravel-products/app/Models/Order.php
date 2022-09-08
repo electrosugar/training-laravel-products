@@ -17,13 +17,8 @@ class Order extends Model
         'comment'
     ];
 
-    public static function order($id){
-        $order = Order::find($id);
-        return $order;
-    }
-
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_product');
+        return $this->belongsToMany(Product::class);
     }
 }

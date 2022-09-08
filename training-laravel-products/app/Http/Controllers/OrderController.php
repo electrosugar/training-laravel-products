@@ -29,12 +29,14 @@ class OrderController extends Controller
             'comment' => 'required|max:500',
         ]);
         //check if there are products
-        $products = Product::find(Session::get('cart'));
         if (empty(Session::get('cart'))) {
             return redirect()->back()->withInput()->withErrors(['errors' => new MessageBag([__('No products in cart')])]);
         }
 
+        $products = Product::find(Session::get('cart'));
+
         //save order
+        $order = new Order();
         $order = new Order();
         $order->name = $validated['name'];
         $order->contact = $validated['contact'];
@@ -52,25 +54,6 @@ class OrderController extends Controller
 
         //mail to the vendor
         Mail::to(env('VENDOR_EMAIL'))->send(new MailVendor($validated));
-        return redirect()->back()->withInput()->with('message', __('Successful Order'));
+        return redirect()->to('order/' . $order->id)->with('order', $order);
     }
-
-    public function order($id)
-    {
-        $order = Order::findOrFail($id);
-        $order->total_price = OrderProduct::where('order_id', $id)->sum('price');
-        return view('order', ['order' => $order]);
-    }
-
-    public function orders()
-    {
-        $orders = [];
-        foreach (Order::all() as $order){
-            $order->total_price = OrderProduct::where('order_id', $order->id)->sum('price');
-            $orders[] = $order;
-        }
-        return view('orders', ['orders' => $orders]);
-    }
-
-
 }
