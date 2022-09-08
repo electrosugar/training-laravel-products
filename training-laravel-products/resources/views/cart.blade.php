@@ -53,15 +53,6 @@
             <span class="formLinks"> <button type="submit" id="btn-submit">{{__('Checkout')}}</button></span>
         </form>
         <a href="{{ url('index') }}">{{__('Go to index')}}</a>
-        <a href="{{ url('orders') }}">{{__('Go to orders')}}</a>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#product-remove").submit(function (e) {
-                    $("#btn-submit").attr('disabled', true);
-                    return true;
-                });
-            });
-        </script>
     @else
         {{__('Name: ') .$orderData['name']}}
         <br>
