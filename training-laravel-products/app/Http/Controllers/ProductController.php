@@ -8,34 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\MessageBag;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        return view('index', ['products' => (Product::notInCart())]);
-    }
-
-    public function products()
-    {
-        return view('products', ['products' => Product::all()]);
-    }
-
-    public function product($id=null)
-    {
-        if (isset($id)) {
-            return view('product', ['id' => $id]);
-
-        } else {
-            return view('product');
-
-        }
-    }
-
-    public function cart()
-    {
-        return view('cart', ['products' => Product::inCart(), 'displayMail' => false]);
-    }
 
     public function add(Request $request)
     {
@@ -56,8 +32,22 @@ class ProductController extends Controller
 
     public function delete(Request $request)
     {
-        DB::table('products')->limit(1)->delete($request->productID);
-        $allProducts = DB::table('products')->select('*')->get();
+        $product = Product::findOrFail($request->productID);
+        $allProducts = Product::all();
+        if(!($product->orders->count())){
+            //TODO remove from cart if it exists
+            Product::destroy($request->productID);
+        }
+        else{
+            $product->deleted = 1;
+            $product->save();
+            $errors = new MessageBag();
+
+            // add your error messages:
+            $errors->add('id', $request->productID);
+            $errors->add('message', 'Product still in order, not deleted');
+            return redirect()->back()->withInput()->withErrors($errors);
+        }
         return view('products', ['products' => $allProducts]);
     }
 

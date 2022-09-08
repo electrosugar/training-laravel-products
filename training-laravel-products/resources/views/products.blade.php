@@ -14,6 +14,11 @@
             <span class="price">
                 {{$product->price}} $
             </span>
+            @if($errors->first('id') == $product->id)
+            @error('message')
+            <div class="error"> {{$message}} </div>
+            @enderror
+                @endif
         </div>
         <form action="{{url('products')}}" method="POST" id="product-delete">
             @csrf
@@ -24,6 +29,7 @@
     @endforeach
     <br>
     <a href="{{url('product')}}">{{__('Add Item')}}</a>
+    <a href="{{ url('orders') }}">{{__('Go to orders')}}</a>
     <form action="{{url('logout')}}" method="POST" id="logout">
         @csrf
         <button id="btn-submit" type="submit">{{__('Logout')}}</button>
