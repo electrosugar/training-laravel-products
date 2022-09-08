@@ -12,16 +12,12 @@ use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
-    public function create()
-    {
-        return view('login');
-    }
 
     public function login()
     {
         $credentials = request()->validate([
             'username' => 'required|string|max:100',
-            'password' => 'required'
+            'password' => 'required|max:100'
         ]);
 
         //successful auth
